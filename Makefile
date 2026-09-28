@@ -20,7 +20,10 @@ all: $(BUILD_DIR) $(TARGETS)
 
 # Rule to compile a single .c file directly to its build/ executable
 $(BUILD_DIR)/%: $(SRC_DIR)/%.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@ $(LDLIBS)
+
+$(BUILD_DIR)/idleinhibitor: CFLAGS += $(shell pkg-config --cflags libsystemd)
+$(BUILD_DIR)/idleinhibitor: LDLIBS += $(shell pkg-config --libs libsystemd)
 
 # Create the build directory if it doesn't exist
 $(BUILD_DIR):
