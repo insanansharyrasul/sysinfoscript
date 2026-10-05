@@ -65,6 +65,15 @@ Then, on eww bar you can write this
 (deflisten memory        :initial "0" "ram_usage")
 ```
 
+`ram_usage` accepts an optional output mode:
+
+```bash
+ram_usage       # mode 3: loop with newline output (default)
+ram_usage 1     # print one value and exit
+ram_usage 2     # loop with carriage-return output
+ram_usage 3     # loop with newline output
+```
+
 For my example, i used it like this:
 ```
 (defwidget memory []
