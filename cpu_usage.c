@@ -68,12 +68,12 @@ int main(int argc, char *argv[]) {
         if (curr_total > prev_total) {
             unsigned long long total_d = curr_total - prev_total;
             unsigned long long idle_d = curr_idle - prev_idle;
-            double cpu_pct =
-                ((double)(total_d - idle_d) / (double)total_d) * 100.0;
+            unsigned long long cpu_pct =
+                ((double)(total_d - idle_d) / (double)total_d) * 100;
             if (mode == 1)
-                printf("%.2f%%", cpu_pct);
+                printf("%llu%%", cpu_pct);
             else 
-                printf(mode == 2 ? "\r%.2f%%   " : "%.2f%%\n", cpu_pct);
+                printf(mode == 2 ? "\r%llu%%   " : "%llu\n", cpu_pct);
             fflush(stdout);
         }
 
