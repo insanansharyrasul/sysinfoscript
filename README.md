@@ -74,6 +74,15 @@ ram_usage 2     # loop with carriage-return output
 ram_usage 3     # loop with newline output
 ```
 
+`cpu_usage` accepts an optional output mode:
+
+```bash
+cpu_usage       # mode 3: loop with newline output (default)
+cpu_usage 1     # print one value and exit
+cpu_usage 2     # loop with carriage-return output
+cpu_usage 3     # loop with newline output
+```
+
 For my example, i used it like this:
 ```
 (defwidget memory []
