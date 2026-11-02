@@ -1,4 +1,6 @@
+#include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -46,7 +48,22 @@ int main(int argc, char *argv[]) {
         mode = 3;
     }
 
-    struct timespec interval = {.tv_sec = 0, .tv_nsec = 100000000L};
+    long interval_ms = 100;
+    if (argc > 2) {
+        char *end;
+        errno = 0;
+        interval_ms = strtol(argv[2], &end, 10);
+        if (errno != 0 || *end != '\0' || interval_ms <= 0 ||
+            interval_ms > LONG_MAX / 1000000L) {
+            fprintf(stderr,
+                    "Interval harus berupa bilangan positif dalam milidetik\n");
+            close(fd);
+            return 1;
+        }
+    }
+
+    struct timespec interval = {.tv_sec = interval_ms / 1000,
+                                .tv_nsec = (interval_ms % 1000) * 1000000L};
 
     while (1) {
         nanosleep(&interval, NULL);
@@ -72,7 +89,7 @@ int main(int argc, char *argv[]) {
                 ((double)(total_d - idle_d) / (double)total_d) * 100;
             if (mode == 1)
                 printf("%llu%%", cpu_pct);
-            else 
+            else
                 printf(mode == 2 ? "\r%llu%%   " : "%llu\n", cpu_pct);
             fflush(stdout);
         }

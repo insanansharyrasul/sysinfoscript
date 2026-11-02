@@ -83,6 +83,12 @@ cpu_usage 2     # loop with carriage-return output
 cpu_usage 3     # loop with newline output
 ```
 
+The second argument sets the sampling interval in milliseconds (default: `100`):
+
+```bash
+cpu_usage 3 250 # newline output every 250 ms
+```
+
 For my example, i used it like this:
 ```
 (defwidget memory []
