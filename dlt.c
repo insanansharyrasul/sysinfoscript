@@ -23,7 +23,7 @@ static void usage(const char *program)
 {
     printf("Usage: %s [options] <left> <right>\n", program);
     printf("       %s [options] \"<left> - <right>\"\n\n", program);
-    printf("Values: HH:MM[:SS], DD/MM/YY, or DD/MM/YY[ T]HH:MM[:SS]\n");
+    printf("Values: HH:MM[:SS] or HH.MM[.SS], DD/MM/YY, or a date-time\n");
     printf("Options:\n");
     printf("  -u, --unit UNIT  auto, day, hour, minute, or second (default: auto)\n");
     printf("  -d, --decimal    print one decimal value in the selected unit\n");
@@ -59,6 +59,26 @@ static int64_t days_from_civil(int year, unsigned month, unsigned day)
 
 static bool parse_time(const char *text, int *hour, int *minute, int *second)
 {
+    char normalized[32];
+    size_t length = strlen(text);
+    bool has_dot = strchr(text, '.') != NULL;
+    bool has_colon = strchr(text, ':') != NULL;
+    if (has_dot && has_colon) {
+        return false;
+    }
+    if (has_dot) {
+        if (length >= sizeof(normalized)) {
+            return false;
+        }
+        memcpy(normalized, text, length + 1);
+        for (size_t i = 0; i < length; i++) {
+            if (normalized[i] == '.') {
+                normalized[i] = ':';
+            }
+        }
+        text = normalized;
+    }
+
     int count = 0;
     if (sscanf(text, "%d:%d:%d%n", hour, minute, second, &count) == 3 &&
         text[count] == '\0') {

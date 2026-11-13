@@ -113,9 +113,9 @@ dlt 13/11/26 12/11/26            # 1 day
 dlt "13/11/26 08:00 - 12/11/26 20:30"  # 1 day 11 hours 30 minutes
 ```
 
-Accepted values are `HH:MM[:SS]`, `DD/MM/YY`, and date-times such as
-`DD/MM/YY HH:MM[:SS]` or `DD/MM/YYTHH:MM[:SS]`. Two-digit years use the
-range 69-99 for 1969-1999 and 00-68 for 2000-2068.
+Accepted values are `HH:MM[:SS]` or `HH.MM[.SS]`, `DD/MM/YY`, and date-times
+such as `DD/MM/YY HH:MM[:SS]` or `DD/MM/YYTHH:MM[:SS]`. Two-digit years use
+the range 69-99 for 1969-1999 and 00-68 for 2000-2068.
 
 The default output is a smart breakdown. Choose a primary unit with
 `--unit day|hour|minute|second`; remaining time is shown in smaller units.
