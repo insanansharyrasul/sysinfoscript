@@ -101,3 +101,29 @@ For my example, i used it like this:
     )
 )
 ```
+
+## Time delta
+
+`dlt` calculates the elapsed time between two values. Use a quoted expression
+or pass the two values separately:
+
+```bash
+dlt "12:30:30 - 12:30:45"       # 15 seconds
+dlt 13/11/26 12/11/26            # 1 day
+dlt "13/11/26 08:00 - 12/11/26 20:30"  # 1 day 11 hours 30 minutes
+```
+
+Accepted values are `HH:MM[:SS]`, `DD/MM/YY`, and date-times such as
+`DD/MM/YY HH:MM[:SS]` or `DD/MM/YYTHH:MM[:SS]`. Two-digit years use the
+range 69-99 for 1969-1999 and 00-68 for 2000-2068.
+
+The default output is a smart breakdown. Choose a primary unit with
+`--unit day|hour|minute|second`; remaining time is shown in smaller units.
+Use `--decimal` to print one decimal value, and `--signed` to preserve the
+subtraction direction:
+
+```bash
+dlt --unit hour --decimal "12:30:30 - 15:00:00"  # 2.491667 hours
+dlt --unit minute "12:30:30 - 15:00:00"          # 149 minutes 30 seconds
+dlt --signed "12:30:30 - 15:00:00"               # -2 hours 29 minutes 30 seconds
+```
