@@ -127,3 +127,27 @@ dlt --unit hour --decimal "12:30:30 - 15:00:00"  # 2.491667 hours
 dlt --unit minute "12:30:30 - 15:00:00"          # 149 minutes 30 seconds
 dlt --signed "12:30:30 - 15:00:00"               # -2 hours 29 minutes 30 seconds
 ```
+
+## Time convert
+
+`tconv` converts a duration into a calendar breakdown, with the remainder
+carried into smaller units. Months and years follow the real calendar from a
+start date (today by default, or `--from DD/MM/YY`).
+
+Units (case-sensitive): `Y` year, `M` month, `W` week (7 days), `D` day, `H` hour, `mm` minute, `s` second.
+
+```bash
+tconv --from 23/11/26 90D          # 2 months 29 days
+tconv --from 23/11/26 -u M 90D     # 2 months (smaller units dropped)
+tconv 90mm                         # 1 hour 30 minutes
+```
+
+Without `-u` the breakdown goes down to seconds; `-u UNIT` stops at that unit.
+
+Use `-t UNIT` to print the whole duration as a single count in one unit
+(rounded down), in either direction:
+
+```bash
+tconv --from 01/01/26 -t D 100Y    # 36524 days
+tconv -t H 1D                      # 24 hours
+```
